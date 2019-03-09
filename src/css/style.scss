@@ -1,0 +1,113 @@
+/*
+rgba(18, 18, 26, 0.8) 
+blackbg
+
+rgb(252, 238, 33) 
+lightyellow
+
+rgb(203, 32, 45) 
+darkred
+
+rgb(247, 171, 27) 
+orange
+
+rgb(236, 112, 37)
+darkorange
+
+rgb(229, 75, 39) 
+darkerorange
+
+rgb(53, 168, 73) 
+darkgreen
+
+rgb(8, 91, 167) 
+darkblue
+
+rgb(211, 220, 43) 
+yellowgreen
+
+rgb(95, 44, 131)
+purple
+
+font-family: 'Acme', sans-serif;
+*/
+
+@import url('https://fonts.googleapis.com/css?family=Laila');
+
+$break-mobile-sm: 400px;
+$break-mobile-lg: 481px;
+$break-sm: 576px;
+$break-md: 768px;
+$break-lg: 992px;
+$break-xl: 1200px;
+$break-xxl: 1400px;
+
+$slide-bg-color: rgba(18, 18, 26, 0.8);
+$source-hover-color: rgb(247, 171, 27);
+$tip-color: hotpink;
+$tip-bg-color: rgb(18, 18, 26);
+
+$laila: 'Laila', serif;
+
+@mixin mobile-sm {
+    @media (max-width: #{$break-mobile-sm}) {
+       @content;
+   };
+};
+
+@mixin mobile-lg {
+    @media (min-width: #{$break-mobile-sm}) {
+       @content;
+   };
+};
+
+@mixin ssm {
+    @media (min-width: #{$break-mobile-lg}) {
+       @content;
+   };
+};
+
+@mixin sm {
+   @media (min-width: #{$break-sm}) {
+       @content;
+   };
+};
+
+@mixin md {
+    @media (min-width: #{$break-md}) {
+       @content;
+   };
+};
+
+@mixin lg {
+    @media (min-width: #{$break-lg}) {
+       @content;
+   };
+};
+
+@mixin xl {
+    @media (min-width: #{$break-xl}) {
+       @content;
+   };
+};
+
+@mixin xxl {
+    @media (min-width: #{$break-xl}) {
+       @content;
+   };
+};
+
+html, body {
+    height: 100%;
+    width: 100%;
+    font-family: $laila;
+
+    .row {
+        margin: 0;
+    };
+};
+
+.cursor-pointer {
+    cursor: pointer;
+};
+

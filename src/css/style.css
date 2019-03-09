@@ -1,0 +1,48 @@
+/*
+rgba(18, 18, 26, 0.8) 
+blackbg
+
+rgb(252, 238, 33) 
+lightyellow
+
+rgb(203, 32, 45) 
+darkred
+
+rgb(247, 171, 27) 
+orange
+
+rgb(236, 112, 37)
+darkorange
+
+rgb(229, 75, 39) 
+darkerorange
+
+rgb(53, 168, 73) 
+darkgreen
+
+rgb(8, 91, 167) 
+darkblue
+
+rgb(211, 220, 43) 
+yellowgreen
+
+rgb(95, 44, 131)
+purple
+
+font-family: 'Acme', sans-serif;
+*/
+@import url("https://fonts.googleapis.com/css?family=Laila");
+html, body {
+  height: 100%;
+  width: 100%;
+  font-family: "Laila", serif;
+}
+
+html .row, body .row {
+  margin: 0;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+/*# sourceMappingURL=style.css.map */

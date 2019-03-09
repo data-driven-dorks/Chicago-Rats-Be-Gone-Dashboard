@@ -59,3 +59,9 @@ typings/
 
 # next.js build output
 .next
+
+# dist for development
+dist
+
+# ds_store for mac
+.DS_Store
