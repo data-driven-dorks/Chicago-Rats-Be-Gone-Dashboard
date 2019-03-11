@@ -136,21 +136,21 @@ export default class lineChart {
             .remove();
     };
 
-    // graphAxesLabel() {
-    //     this.graph.append("text")
-    //         .text("Time")
-    //         .attr("text-anchor", "middle")
-    //         .attr("transform", `translate(${this.width / 1.9}, ${this.margin.bottom * 1.5 + this.graphHeight})`)
-    //         .attr("font-size", "14")
-    //         .attr("fill", "white");
+    graphAxesLabel() {
+        this.graph.append("text")
+            .text("Time")
+            .attr("text-anchor", "middle")
+            .attr("transform", `translate(${this.width / 1.9}, ${this.margin.bottom * 1.5 + this.graphHeight})`)
+            .attr("font-size", "14")
+            .attr("fill", "white");
 
-    //     this.graph.append("text")
-    //         .text("Complaint Count")
-    //         .attr("text-anchor", "middle")
-    //         .attr("transform", `translate(${this.margin.left / 4}, ${this.height / 1.9})rotate(-90)`)
-    //         .attr("font-size", "14")
-    //         .attr("fill", "white");
-    // };
+        this.graph.append("text")
+            .text("Complaint Count")
+            .attr("text-anchor", "middle")
+            .attr("transform", `translate(${this.margin.left / 4}, ${this.height / 1.9})rotate(-90)`)
+            .attr("font-size", "14")
+            .attr("fill", "white");
+    };
 
     // graphInfo() {
     //     this.graph.append("text")
@@ -185,6 +185,7 @@ export default class lineChart {
         this.graphScales();
         this.graphAxes();   
         this.graphLine();
+        this.graphAxesLabel();
         this.graphed = true;
     };
 };
