@@ -13,13 +13,16 @@ let favicon = document.getElementById("favicon");
 favicon.href = ratfavi;
 
 /* Data */
-const files = ["data/chicago_community_boundaries.geojson", "data/year_chicago_5_year_complaints_by_date.json"];
+const files = ["data/chicago_community_boundaries.geojson", "data/year_chicago_5_year_complaints_by_date.json", "data/year_chicago_5_year_complaints_by_response_time.json"];
 
 /* Plot */
 Promise.all(files.map(path => d3.json(path)))
     .then(res => {
         const dataChicago = res[0];
         const annualTotal = res[1];
+        const responseTime = res[2];
+
+        console.log(responseTime)
 
        /* Chicago Map */
         const mapMargin = { left: 25, right: 25, top: 75, bottom: 75 };
