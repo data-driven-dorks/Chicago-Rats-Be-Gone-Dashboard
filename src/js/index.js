@@ -22,9 +22,9 @@ Promise.all(files.map(path => d3.json(path)))
         const annualTotal = res[1];
 
        /* Chicago Map */
-        const mapMargin = { left: 75, right: 75, top: 75, bottom: 75 };
+        const mapMargin = { left: 25, right: 25, top: 75, bottom: 75 };
         const mapWidth = 700;
-        const mapHeight = 1000;
+        const mapHeight = 800;
         const mapScale = 100500;
         let mapCanvas = d3.select(".chicago-map-section")
             .append("svg")
@@ -38,7 +38,7 @@ Promise.all(files.map(path => d3.json(path)))
         const year2014 = annualTotal.filter(d => d.year == 2014);
         const lineMargin = { left: 75, right: 75, top: 75, bottom: 75 };
         const lineWidth = 700;
-        const lineHeight = 400;
+        const lineHeight = 350;
         let lineCanvas = d3.select(".line-section")
             .append("svg")
             .attr("class", "remove-line")
@@ -62,10 +62,11 @@ Promise.all(files.map(path => d3.json(path)))
 
 /* Responsive Control */
 function responsivefy(svg) {
-    const container = d3.select(svg.node().parentNode),
+    let container = d3.select(svg.node().parentNode),
         width = parseInt(svg.style("width")),
-        height = parseInt(svg.style("height")),
-        aspect = width / height;
+        height = parseInt(svg.style("height"));
+    let aspect = width / height;
+        if (aspect < 0.6) { aspect = 1; width = 700; }
 
     svg.attr("viewBox", `0 0 ${width} ${height}`)
         .attr("perserveAspectRatio", "xMinYMid")
