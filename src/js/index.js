@@ -69,7 +69,8 @@ function responsivefy(svg) {
         width = parseInt(svg.style("width")),
         height = parseInt(svg.style("height"));
     let aspect = width / height;
-        if (aspect < 0.6) { aspect = 1; width = 700; }
+        console.log(aspect);
+        if (aspect < 0.8) { aspect = 1; width = 700; }
 
     svg.attr("viewBox", `0 0 ${width} ${height}`)
         .attr("perserveAspectRatio", "xMinYMid")

@@ -153,6 +153,19 @@ export default class lineChart {
             .remove();
     };
 
+    graphBrush() {
+        const dateMin = d3.min(this.data, d => new Date(d.date));
+        const dateMax = d3.max(this.data, d => new Date(d.date));
+        this.brush = d3.brushX()
+            .extent([[this.x(dateMin), this.y(7000)], [this.x(dateMax), this.y(0)]]);
+
+        this.gBrush = this.graph.append("g")
+        .attr("class", "brush")
+        .call(this.brush);
+
+        this.gBrush.on(".brush", null);
+    }
+
     graphAxesLabel() {
         this.xAxisLabel = this.graph.append("text")
             .text("Time")
@@ -195,6 +208,7 @@ export default class lineChart {
         if (this.yAxisLabel) this.yAxisLabel.remove();
         if (this.graphTitle) this.graphTitle.remove();
         if (this.graphSource) this.graphSource.remove();
+        if (this.gBrush) this.gBrush.remove();
     };
 
     grapher(newData) {
@@ -203,6 +217,7 @@ export default class lineChart {
         this.graphSetup();
         this.graphScales();
         this.graphAxes();   
+        this.graphBrush();
         this.graphLine();
         this.graphAxesLabel();
         this.graphInfo();
