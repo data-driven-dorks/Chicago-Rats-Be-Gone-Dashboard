@@ -152,28 +152,21 @@ export default class lineChart {
             .attr("fill", "white");
     };
 
-    // graphInfo() {
-    //     this.graph.append("text")
-    //         .text("Number of Rat Complaints Peaked in 2017 and Appeared to Have a Seasonal Pattern")
-    //         .attr("text-anchor", "middle")
-    //         .attr("transform", `translate(${this.width / 2}, ${this.margin.top / 3})`)
-    //         .attr("font-size", "20")
-    //         .attr("fill", "white");
+    graphInfo() {
+        this.graph.append("text")
+            .text("Monthly rat complaint counts from 2014 to 2018 in Chicago")
+            .attr("text-anchor", "middle")
+            .attr("transform", `translate(${this.width / 2}, ${this.margin.top / 1.5})`)
+            .attr("font-size", "16")
+            .attr("fill", "white");
 
-    //     this.graph.append("text")
-    //         .text("Monthly rat complaint counts from 2014 to 2018 in Chicago")
-    //         .attr("text-anchor", "middle")
-    //         .attr("transform", `translate(${this.width / 2}, ${this.margin.top / 1.5})`)
-    //         .attr("font-size", "16")
-    //         .attr("fill", "white");
-
-    //     this.graph.append("text")
-    //         .html(() => "Source: <a class='chart-source' href='https://data.cityofchicago.org/Service-Requests/311-Service-Requests-Rodent-Baiting-No-Duplicates/uqhs-j723'>Chicago Data Portal</a>")
-    //         .attr("text-anchor", "middle")
-    //         .attr("transform", `translate(${this.width / 1.19}, ${this.height - this.margin.bottom / 5})`)
-    //         .attr("font-size", "14")
-    //         .attr("fill", "white");
-    // };
+        this.graph.append("text")
+            .html(() => "Source: <a class='chart-source' href='https://data.cityofchicago.org/Service-Requests/311-Service-Requests-Rodent-Baiting-No-Duplicates/uqhs-j723'>Chicago Data Portal</a>")
+            .attr("text-anchor", "middle")
+            .attr("transform", `translate(${this.width / 1.19}, ${this.height - this.margin.bottom / 5})`)
+            .attr("font-size", "14")
+            .attr("fill", "white");
+    };
 
     grapher(newData) {
         if (this.xAxisGroup) this.xAxisGroup.remove();
@@ -186,6 +179,7 @@ export default class lineChart {
         this.graphAxes();   
         this.graphLine();
         this.graphAxesLabel();
+        this.graphInfo();
         this.graphed = true;
     };
 };
