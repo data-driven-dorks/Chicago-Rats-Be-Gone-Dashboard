@@ -4,39 +4,56 @@ import "../css/style.css";
 import ratfavi from "../img/ratfavi.png";
 
 import * as d3 from "d3";
-import ChicagoMap from "./charts/chicagoMap";
 import { sliderHorizontal } from "d3-simple-slider";
+import ChicagoMap from "./charts/chicagoMap";
+import LineChart from "./charts/line";
 
 /* Images */
 let favicon = document.getElementById("favicon");
 favicon.href = ratfavi;
 
 /* Data */
-const files = ["data/chicago_community_boundaries.geojson"];
+const files = ["data/chicago_community_boundaries.geojson", "data/year_chicago_5_year_complaints_by_date.json"];
 
 /* Plot */
 Promise.all(files.map(path => d3.json(path)))
     .then(res => {
         const dataChicago = res[0];
-
-        sliderGenerate();
-        window.addEventListener("resize", () => {
-            document.querySelector(".slider-width-getter").remove();
-            sliderGenerate();
-        });
+        const annualTotal = res[1];
 
        /* Chicago Map */
-        const mapMargin = { left: 75, right: 75, top: 75, bottom: 75 }
+        const mapMargin = { left: 75, right: 75, top: 75, bottom: 75 };
         const mapWidth = 700;
         const mapHeight = 1000;
         const mapScale = 100500;
         let mapCanvas = d3.select(".chicago-map-section")
             .append("svg")
             .attr("width", mapWidth)
-            .attr("height", mapHeight)
+            .attr("height", mapHeight);
         const chicagoMap = new ChicagoMap(dataChicago, mapCanvas, mapWidth, mapHeight, mapMargin, mapScale);
         chicagoMap.grapher();
-        responsivefy(mapCanvas);
+        responsivefy(chicagoMap.canvas);
+
+        /* Line Chart */
+        const year2014 = annualTotal.filter(d => d.year == 2014);
+        const lineMargin = { left: 75, right: 75, top: 75, bottom: 75 };
+        const lineWidth = 700;
+        const lineHeight = 400;
+        let lineCanvas = d3.select(".line-section")
+            .append("svg")
+            .attr("class", "remove-line")
+            .attr("width", lineWidth)
+            .attr("height", lineHeight);
+        const lineChart = new LineChart(lineCanvas, lineWidth, lineHeight, lineMargin);
+        lineChart.grapher(year2014);
+        responsivefy(lineChart.canvas);
+
+        /* Slider Chart */
+        sliderGenerate(annualTotal, lineChart);
+        window.addEventListener("resize", () => {
+            document.querySelector(".slider-width-getter").remove();
+            sliderGenerate(annualTotal, lineChart);
+        });
     })
     .catch(err => {
         alert("Something went wrong...");
@@ -71,30 +88,33 @@ function sliderWidthRatio() {
         return 0.85;
     } else {
         return 0.8;
-    }
+    };
 }
 
 /* Slider Generator */
-function sliderGenerate() {
+function sliderGenerate(annualTotal, lineChart) {
     let sliderContainerWidth = document.querySelector(".slider-section").offsetWidth
-    console.log(sliderContainerWidth);
 
     const slider = sliderHorizontal()
-    .min(2014)
-    .max(2018)
-    .step(1)
-    .width(sliderContainerWidth * sliderWidthRatio())
-    .ticks(5)
-    .tickFormat(d3.format(".0f"))
-    .on("onchange", val => {
-        console.log(`You changed to ${val}`);
-    });
+        .min(2014)
+        .max(2018)
+        .step(1)
+        .width(sliderContainerWidth * sliderWidthRatio())
+        .ticks(5)
+        .tickFormat(d3.format(".0f"))
+        .on("onchange", val => {
+            const yearData = annualTotal.filter(d => d.year == val);
+
+            /* Line Chart Update */
+            lineChart.grapher(yearData);
+        });
+
     const sliderCanvas = d3.select(".slider-section")
          .append("svg")
          .attr("class", "slider-width-getter")
          .attr("width", sliderContainerWidth * 1.5)
-         .attr("height", 70)
-     sliderCanvas.append("g")
-         .attr("transform", `translate(${sliderContainerWidth * 0.05}, 20)`)
-         .call(slider);
+         .attr("height", 70);
+    sliderCanvas.append("g")
+        .attr("transform", `translate(${sliderContainerWidth * 0.05}, 20)`)
+        .call(slider);
 }
