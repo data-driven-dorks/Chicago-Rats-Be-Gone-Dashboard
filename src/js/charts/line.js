@@ -1,7 +1,8 @@
 import * as d3 from "d3";
 
 export default class lineChart {
-    constructor(canvas, width, height, margin) {
+    constructor(fiveYearData, canvas, width, height, margin) {
+        this.fiveYearData = fiveYearData;
         this.canvas = canvas;
         this.width = width;
         this.height = height;
@@ -17,7 +18,7 @@ export default class lineChart {
     };
 
     graphScales() {
-        const dateExtent = d3.extent(this.data, d => d.date)
+        const dateExtent = d3.extent(this.fiveYearData, d => d.date)
             .map(e => new Date(e));
         const countMax = 7000;
 
@@ -38,8 +39,8 @@ export default class lineChart {
         this.yAxisGroup = this.graph.append("g")
             .attr("transform", `translate(${this.margin.left}, 0)`);
 
-        const xAxis = d3.axisBottom(this.x)
-            .tickFormat(d3.timeFormat("%b"));
+        const xAxis = d3.axisBottom(this.x);
+
         const yAxis = d3.axisLeft(this.y);
 
         this.xAxisGroup.call(xAxis)
@@ -53,10 +54,26 @@ export default class lineChart {
             .x(d => this.x(new Date(d.date)))
             .y(d => this.y(d.count));
 
+        this.allTimePath = this.graph.append("path")
+            .datum(this.fiveYearData)
+            .attr("d", timeLine)
+            .attr("stroke", "white")
+            .attr("stroke-width", 2)
+            .attr("fill", "none");
+
+        const nl = this.allTimePath.node().getTotalLength();
+
+        this.allTimePath.attr("stroke-dasharray", `${l}, ${l}`)
+            .attr("stroke-dashoffset", nl);
+
+        this.allTimePath.transition()
+            .duration(2000)
+            .attr("stroke-dashoffset", 0);
+
         this.timePath = this.graph.append("path")
             .datum(this.data)
             .attr("d", timeLine)
-            .attr("stroke", "white")
+            .attr("stroke", "red")
             .attr("stroke-width", 2)
             .attr("fill", "none");
 
@@ -89,7 +106,7 @@ export default class lineChart {
 
         this.circles.transition()
             .duration(500)
-            .attr("r", 4)
+            .attr("r", 2)
             .attr("fill", "rgb(252, 238, 33)");
 
         this.circles.on("mouseover", this.handleMouseOver.bind(this))
@@ -113,7 +130,7 @@ export default class lineChart {
         ];
 
         d3.select(n[i])
-            .attr("r", 7)
+            .attr("r", 3)
             .attr("fill", "rgb(229, 75, 39)");
 
         this.graph.append("foreignObject")
@@ -129,7 +146,7 @@ export default class lineChart {
 
     handleMouseOut(d, i, n) {
         d3.select(this)
-            .attr("r", 4)
+            .attr("r", 2)
             .attr("fill", "rgb(252, 238, 33)");
 
         d3.select(`#t-${d.date}-${d.count}-${i}`)
@@ -137,14 +154,14 @@ export default class lineChart {
     };
 
     graphAxesLabel() {
-        this.graph.append("text")
+        this.xAxisLabel = this.graph.append("text")
             .text("Time")
             .attr("text-anchor", "middle")
             .attr("transform", `translate(${this.width / 1.9}, ${this.margin.bottom * 1.5 + this.graphHeight})`)
             .attr("font-size", "14")
             .attr("fill", "white");
 
-        this.graph.append("text")
+        this.yAxisLabel = this.graph.append("text")
             .text("Complaint Count")
             .attr("text-anchor", "middle")
             .attr("transform", `translate(${this.margin.left / 4}, ${this.height / 1.9})rotate(-90)`)
@@ -153,14 +170,14 @@ export default class lineChart {
     };
 
     graphInfo() {
-        this.graph.append("text")
+        this.graphTitle = this.graph.append("text")
             .text("Monthly rat complaint counts from 2014 to 2018 in Chicago")
             .attr("text-anchor", "middle")
             .attr("transform", `translate(${this.width / 2}, ${this.margin.top / 1.5})`)
             .attr("font-size", "16")
             .attr("fill", "white");
 
-        this.graph.append("text")
+        this.graphSource = this.graph.append("text")
             .html(() => "Source: <a class='chart-source' href='https://data.cityofchicago.org/Service-Requests/311-Service-Requests-Rodent-Baiting-No-Duplicates/uqhs-j723'>Chicago Data Portal</a>")
             .attr("text-anchor", "middle")
             .attr("transform", `translate(${this.width / 1.19}, ${this.height - this.margin.bottom / 5})`)
@@ -168,12 +185,21 @@ export default class lineChart {
             .attr("fill", "white");
     };
 
-    grapher(newData) {
+    graphRemove() {
         if (this.xAxisGroup) this.xAxisGroup.remove();
         if (this.yAxisGroup) this.yAxisGroup.remove();
         if (this.timePath) this.timePath.remove();
+        if (this.allTimePath) this.allTimePath.remove();
         if (this.circles) this.circles.remove();
+        if (this.xAxisLabel) this.xAxisLabel.remove();
+        if (this.yAxisLabel) this.yAxisLabel.remove();
+        if (this.graphTitle) this.graphTitle.remove();
+        if (this.graphSource) this.graphSource.remove();
+    };
+
+    grapher(newData) {
         this.data = newData;
+        this.graphRemove();
         this.graphSetup();
         this.graphScales();
         this.graphAxes();   

@@ -47,7 +47,7 @@ Promise.all(files.map(path => d3.json(path)))
             .attr("class", "remove-line")
             .attr("width", lineWidth)
             .attr("height", lineHeight);
-        const lineChart = new LineChart(lineCanvas, lineWidth, lineHeight, lineMargin);
+        const lineChart = new LineChart(annualTotal, lineCanvas, lineWidth, lineHeight, lineMargin);
         lineChart.grapher(year2014);
         responsivefy(lineChart.canvas);
 
