@@ -7,6 +7,7 @@ import * as d3 from "d3";
 import { sliderHorizontal } from "d3-simple-slider";
 import ChicagoMap from "./charts/chicagoMap";
 import LineChart from "./charts/line";
+import StackBar from "./charts/stackBar";
 
 /* Images */
 let favicon = document.getElementById("favicon");
@@ -21,8 +22,6 @@ Promise.all(files.map(path => d3.json(path)))
         const dataChicago = res[0];
         const annualTotal = res[1];
         const responseTime = res[2];
-
-        console.log(responseTime)
 
        /* Chicago Map */
         const mapMargin = { left: 25, right: 25, top: 75, bottom: 75 };
@@ -51,6 +50,20 @@ Promise.all(files.map(path => d3.json(path)))
         lineChart.grapher(year2014);
         responsivefy(lineChart.canvas);
 
+
+        /* Stack Bar */
+        const responseTime2014 = responseTime.filter(d => d.year == 2014);
+        const barMargin = { left: 75, right: 75, top: 75, bottom: 75 };
+        const barWidth = 700;
+        const barHeight = 700;
+        let barCanvas = d3.select(".stacked-bar-section")
+            .append("svg")
+            .attr("width", barWidth)
+            .attr("height", barHeight);
+        const barChart = new StackBar(responseTime2014, barCanvas, barWidth, barHeight, barMargin);
+        barChart.grapher();
+        responsivefy(barChart.canvas);
+
         /* Slider Chart */
         sliderGenerate(annualTotal, lineChart);
         window.addEventListener("resize", () => {
@@ -69,7 +82,6 @@ function responsivefy(svg) {
         width = parseInt(svg.style("width")),
         height = parseInt(svg.style("height"));
     let aspect = width / height;
-        console.log(aspect);
         if (aspect < 0.8) { aspect = 1; width = 700; }
 
     svg.attr("viewBox", `0 0 ${width} ${height}`)
