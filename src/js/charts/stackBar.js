@@ -57,15 +57,20 @@ export default class stackBar {
 
     graphLegend() {
         this.legendGroup = this.canvas.append("g")
-            .attr("transform", `translate(${4 * this.margin.left}, ${0.31 * this.height})`);
+            .attr("transform", `translate(${4 * this.margin.left}, ${0.32 * this.height})`);
 
         this.legend = legendColor()
             .shape("circle")
-            .shapePadding(5)
+            .shapePadding(1)
             .scale(this.color);
 
         this.legendGroup.call(this.legend);
-        this.legendGroup.selectAll("text").attr("fill", "white");
+        this.legendGroup.selectAll("text")
+            .attr("fill", "white")
+            .attr("font-size", "14");
+
+        this.legendGroup.selectAll("circle")
+            .attr("r", "6");
     };
 
     graphPie() {
@@ -89,7 +94,38 @@ export default class stackBar {
             .data(d => d)
             .enter()
             .append("path")
-            .attr("d", this.arcPath);
+            .attr("d", this.arcPath)
+            .attr("class", "cursor-pointer");
+
+        this.piePath.on("mouseover", this.handleMouseOver.bind(this))
+            .on("mouseout", this.handleMouseOut.bind(this));
+    };
+
+    handleMouseOver(d, i, n) {
+        const centroid = this.arcPath.centroid(d);
+
+        d3.select(n[i])
+            .attr("stroke", "white")
+            .attr("stroke-width", 2);
+
+        this.graph.append("foreignObject")
+            .attr("width", 190)
+            .attr("height", 55)
+            .attr("id", `t-${d[0]}-${d[1]}-${i}`)
+            .attr("x", centroid[0] + 40)
+            .attr("y", centroid[1] - 80)
+            .html(() => {
+                let content = `<div class="tip-style"><div>Count</div>`;
+                content += `<div>${d[1] - d[0]}</div></div>`;
+                return content;
+            });
+    };
+
+    handleMouseOut(d, i, n) {
+        d3.select(n[i])
+            .attr("stroke", "none");
+        d3.select(`#t-${d[0]}-${d[1]}-${i}`)
+            .remove();
     };
 
     graphXAxis() {
