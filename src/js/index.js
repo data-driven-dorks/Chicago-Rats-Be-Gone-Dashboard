@@ -60,15 +60,15 @@ Promise.all(files.map(path => d3.json(path)))
             .append("svg")
             .attr("width", barWidth)
             .attr("height", barHeight);
-        const barChart = new StackBar(responseTime2014, barCanvas, barWidth, barHeight, barMargin);
-        barChart.grapher();
+        const barChart = new StackBar(barCanvas, barWidth, barHeight, barMargin);
+        barChart.grapher(responseTime2014);
         responsivefy(barChart.canvas);
 
         /* Slider Chart */
-        sliderGenerate(annualTotal, lineChart);
+        sliderGenerate(annualTotal, responseTime, lineChart, barChart);
         window.addEventListener("resize", () => {
             document.querySelector(".slider-width-getter").remove();
-            sliderGenerate(annualTotal, lineChart);
+            sliderGenerate(annualTotal, responseTime, lineChart, barChart);
         });
     })
     .catch(err => {
@@ -109,7 +109,7 @@ function sliderWidthRatio() {
 }
 
 /* Slider Generator */
-function sliderGenerate(annualTotal, lineChart) {
+function sliderGenerate(annualTotal, responseTime, lineChart, barChart) {
     let sliderContainerWidth = document.querySelector(".slider-section").offsetWidth
 
     const slider = sliderHorizontal()
@@ -121,9 +121,11 @@ function sliderGenerate(annualTotal, lineChart) {
         .tickFormat(d3.format(".0f"))
         .on("onchange", val => {
             const yearData = annualTotal.filter(d => d.year == val);
+            const responseData = responseTime.filter(d => d.year == val);
 
             /* Line Chart Update */
             lineChart.grapher(yearData);
+            barChart.grapher(responseData);
         });
 
     const sliderCanvas = d3.select(".slider-section")
