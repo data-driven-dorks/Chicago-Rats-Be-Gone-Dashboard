@@ -23,7 +23,7 @@ Promise.all(files.map(path => d3.json(path)))
         const annualTotal = res[1];
         const responseTime = res[2];
 
-       /* Chicago Map */
+        /* Chicago Map */
         const mapMargin = { left: 25, right: 25, top: 75, bottom: 75 };
         const mapWidth = 700;
         const mapHeight = 800;
@@ -43,13 +43,11 @@ Promise.all(files.map(path => d3.json(path)))
         const lineHeight = 350;
         let lineCanvas = d3.select(".line-section")
             .append("svg")
-            .attr("class", "remove-line")
             .attr("width", lineWidth)
             .attr("height", lineHeight);
         const lineChart = new LineChart(annualTotal, lineCanvas, lineWidth, lineHeight, lineMargin);
         lineChart.grapher(year2014);
-        responsivefy(lineChart.canvas);
-
+        responsivefy(lineCanvas, "line");
 
         /* Stack Bar */
         const responseTime2014 = responseTime.filter(d => d.year == 2014);
@@ -77,12 +75,12 @@ Promise.all(files.map(path => d3.json(path)))
     });
 
 /* Responsive Control */
-function responsivefy(svg) {
+function responsivefy(svg, type) {
     let container = d3.select(svg.node().parentNode),
         width = parseInt(svg.style("width")),
         height = parseInt(svg.style("height"));
     let aspect = width / height;
-        if (aspect < 0.8) { aspect = 1; width = 700; }
+    if (aspect < 0.8) { aspect = 1; width = 700; }
 
     svg.attr("viewBox", `0 0 ${width} ${height}`)
         .attr("perserveAspectRatio", "xMinYMid")
@@ -92,6 +90,7 @@ function responsivefy(svg) {
 
     function resize() {
         let targetWidth = parseInt(container.style("width"));
+        if (type === "line") targetWidth = NaN;
         svg.attr("width", targetWidth - 30);
         svg.attr("height", Math.round(targetWidth / aspect));
     };
@@ -129,10 +128,10 @@ function sliderGenerate(annualTotal, responseTime, lineChart, barChart) {
         });
 
     const sliderCanvas = d3.select(".slider-section")
-         .append("svg")
-         .attr("class", "slider-width-getter")
-         .attr("width", sliderContainerWidth * 1.5)
-         .attr("height", 70);
+        .append("svg")
+        .attr("class", "slider-width-getter")
+        .attr("width", sliderContainerWidth * 1.5)
+        .attr("height", 70);
     sliderCanvas.append("g")
         .attr("transform", `translate(${sliderContainerWidth * 0.05}, 20)`)
         .call(slider);
