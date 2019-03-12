@@ -37,6 +37,11 @@ html, body {
   width: 100%;
   font-family: "Laila", serif;
   overflow-x: hidden;
+  background: #000000;
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-gradient(linear, right top, left top, from(#434343), to(#000000));
+  background: linear-gradient(to left, #434343, #000000);
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
 html .row, body .row {
@@ -53,31 +58,62 @@ html .row, body .row {
   width: 100%;
 }
 
-.chicago-map-section {
-  background: #085ba7;
+.slider-section .tick text {
+  fill: white;
+  font-family: "Laila", serif;
 }
 
-.map-related-section {
-  background: #ec7025;
-}
-
-.slider-section {
-  background: #d3dc2b;
+.slider-section .parameter-value text {
+  fill: #f7ab1b;
 }
 
 .line-section {
-  background: #35a849;
+  color: white;
 }
 
-.stacked-bar-section {
-  background: #e54b27;
+.line-section .brush {
+  fill: rgba(18, 18, 26, 0.4);
+}
+
+.line-section .chart-source {
+  fill: white;
+  text-decoration: underline;
+}
+
+.line-section .chart-source:hover {
+  fill: #f7ab1b;
+}
+
+.line-section .ticks-style {
+  font-family: "Laila", serif;
+  font-size: 0.75rem;
+}
+
+.tip-style {
+  display: inline-block;
+  text-align: center;
+  border-radius: 10%;
+  font-size: 0.8rem;
+  padding: 0.3rem;
+  background: #12121a;
+  color: hotpink;
+  border: white 1px solid;
 }
 
 .repo-link {
   font-size: 1.5rem;
+  color: white;
 }
 
-.brush {
-  fill: rgba(0, 0, 0, 0.3);
+.repo-link:hover, .repo-link:active, .repo-link:focus {
+  color: #f7ab1b;
+}
+
+.return-link {
+  color: white;
+}
+
+.return-link:hover, .return-link:active, .return-link:focus {
+  color: #f7ab1b;
 }
 /*# sourceMappingURL=style.css.map */

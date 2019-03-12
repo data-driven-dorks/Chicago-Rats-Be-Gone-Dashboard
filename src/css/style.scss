@@ -102,6 +102,9 @@ html, body {
     width: 100%;
     font-family: $laila;
     overflow-x: hidden;
+    background: #000000;
+    background: -webkit-linear-gradient(to left, #434343, #000000);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to left, #434343, #000000); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
     .row {
         margin: 0;
@@ -118,30 +121,59 @@ html, body {
     width: 100%;
 };
 
-.chicago-map-section {
-    background: rgb(8, 91, 167) ;
-};
-
-.map-related-section {
-    background: rgb(236, 112, 37)
-};
-
 .slider-section {
-    background: rgb(211, 220, 43) 
+    .tick text{
+        fill: white;
+        font-family: $laila;
+    };
+    .parameter-value text {
+        fill: rgb(247, 171, 27);
+    };
 };
 
 .line-section {
-    background: rgb(53, 168, 73) 
+    color: white;
+
+    .brush {
+        fill: rgba(18, 18, 26, 0.4);
+    };
+
+    .chart-source {
+        fill: white;
+        text-decoration: underline;
+        &:hover {
+            fill: $source-hover-color;
+        };
+    };
+
+    .ticks-style {
+        font-family: $laila;
+        font-size: 0.75rem;
+    };
 };
 
-.stacked-bar-section {
-    background: rgb(229, 75, 39);
+.tip-style {
+    display: inline-block;
+    text-align: center;
+    border-radius: 10%;
+    font-size: 0.8rem;
+    padding: 0.3rem;
+    background: $tip-bg-color;
+    color: $tip-color;
+    border: white 1px solid;
 };
 
 .repo-link {
     font-size: 1.5rem;
+    color: white;
+    &:hover, &:active, &:focus {
+        color: rgb(247, 171, 27);
+    }
 };
 
-.brush {
-    fill: rgba(0, 0, 0, 0.3);
-};
+.return-link {
+    color: white;
+    &:hover, &:active, &:focus {
+        color: rgb(247, 171, 27);
+    }
+}

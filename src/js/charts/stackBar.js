@@ -15,20 +15,20 @@ export default class stackBar {
             y: this.graphHeight / 2
         }
         this.colorScheme = [
-            "rgb(8, 91, 167)",      // darkblue
             "rgb(53, 168, 73)",     // green
             "rgb(252, 238, 33)",    // yellow
             "rgb(247, 171, 27)",    // orange
             "rgb(236, 112, 37)",    // darkorange
             "rgb(229, 75, 39)",     // darkerorange
             "rgb(203, 32, 45)",     // darkred
-            "rgb(95, 44, 131)"      // purple
+            "rgb(95, 44, 131)",      // purple
+            "rgb(8, 91, 167)"      // darkblue
         ];
-        this.keys = ["within 3 days", 
-                    "4 to 7 days", 
-                    "8 to 14 days", 
-                    "15 to 30 days", 
-                    "over 30 days"];
+        this.keys = ["within 3 days",
+            "4 to 7 days",
+            "8 to 14 days",
+            "15 to 30 days",
+            "over 30 days"];
         this.graphed = false;
     };
 
@@ -60,7 +60,7 @@ export default class stackBar {
             .outerRadius(d => this.y(d[1]))
             .startAngle(d => this.x(d.data.month))
             .endAngle(d => this.x(d.data.month) + this.x.bandwidth())
-            .padAngle(0.01)
+            .padAngle(0.02)
             .padRadius(this.innerRadius)
     };
 
@@ -88,7 +88,8 @@ export default class stackBar {
 
         this.xLabels.append("text")
             .attr("transform", "rotate(90)translate(0, 16)")
-            .text(d => d.month);
+            .text(d => d.month)
+            .attr("fill", "white");
     };
 
     graphRemove() {

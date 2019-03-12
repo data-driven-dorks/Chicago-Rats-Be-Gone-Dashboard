@@ -73,8 +73,8 @@ export default class lineChart {
         this.timePath = this.graph.append("path")
             .datum(this.data)
             .attr("d", timeLine)
-            .attr("stroke", "red")
-            .attr("stroke-width", 2)
+            .attr("stroke", "rgb(247, 171, 27)")
+            .attr("stroke-width", 2.5)
             .attr("fill", "none");
 
         const l = this.timePath.node().getTotalLength();
@@ -83,12 +83,12 @@ export default class lineChart {
             .attr("stroke-dashoffset", l);
 
         this.timePath.transition()
-            .duration(2000)
+            .duration(500)
             .attr("stroke-dashoffset", 0);
 
         setTimeout(() => {
             this.graphCircles()
-        }, 2000);
+        }, 500);
     };
 
     graphCircles() {
@@ -105,7 +105,7 @@ export default class lineChart {
             .attr("stroke-width", 1);
 
         this.circles.transition()
-            .duration(500)
+            .duration(300)
             .attr("r", 2)
             .attr("fill", "rgb(252, 238, 33)");
 
@@ -177,7 +177,7 @@ export default class lineChart {
         this.yAxisLabel = this.graph.append("text")
             .text("Complaint Count")
             .attr("text-anchor", "middle")
-            .attr("transform", `translate(${this.margin.left / 4}, ${this.height / 1.9})rotate(-90)`)
+            .attr("transform", `translate(${this.margin.left / 3.5}, ${this.height / 1.9})rotate(-90)`)
             .attr("font-size", "14")
             .attr("fill", "white");
     };
