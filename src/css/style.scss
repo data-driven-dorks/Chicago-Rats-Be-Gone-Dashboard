@@ -153,6 +153,7 @@ html, body {
     background: $tip-bg-color;
     color: $tip-color;
     border: white 1px solid;
+    z-index: 999;
 };
 
 .chart-source {

@@ -10,7 +10,7 @@ export default class stackBar {
         this.graphWidth = this.width - this.margin.left - this.margin.right;
         this.graphHeight = this.height - this.margin.top - this.margin.bottom;
         this.innerRadius = 150;
-        this.outerRadius = 350;
+        this.outerRadius = 345;
         this.center = {
             x: this.graphWidth / 2 + this.margin.left,
             y: this.graphHeight / 2
@@ -109,15 +109,13 @@ export default class stackBar {
             .attr("stroke-width", 2);
 
         this.graph.append("foreignObject")
-            .attr("width", 190)
-            .attr("height", 55)
+            .attr("width", 100)
+            .attr("height", 54)
             .attr("id", `t-${d[0]}-${d[1]}-${i}`)
-            .attr("x", centroid[0] + 40)
-            .attr("y", centroid[1] - 80)
+            .attr("x", centroid[0] - 5)
+            .attr("y", centroid[1] - 75)
             .html(() => {
-                let content = `<div class="tip-style"><div>Count</div>`;
-                content += `<div>${d[1] - d[0]}</div></div>`;
-                return content;
+                return `<div class="tip-style"><div>Count:</div><div>${d[1] - d[0]}</div></div>`;
             });
     };
 
