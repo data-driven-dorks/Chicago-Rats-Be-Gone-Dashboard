@@ -75,15 +75,6 @@ html .row, body .row {
   fill: rgba(18, 18, 26, 0.4);
 }
 
-.line-section .chart-source {
-  fill: white;
-  text-decoration: underline;
-}
-
-.line-section .chart-source:hover {
-  fill: #f7ab1b;
-}
-
 .line-section .ticks-style {
   font-family: "Laila", serif;
   font-size: 0.75rem;
@@ -98,6 +89,15 @@ html .row, body .row {
   background: #12121a;
   color: hotpink;
   border: white 1px solid;
+}
+
+.chart-source {
+  fill: white;
+  text-decoration: underline;
+}
+
+.chart-source:hover {
+  fill: #f7ab1b;
 }
 
 .repo-link {

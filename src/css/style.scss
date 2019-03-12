@@ -138,14 +138,6 @@ html, body {
         fill: rgba(18, 18, 26, 0.4);
     };
 
-    .chart-source {
-        fill: white;
-        text-decoration: underline;
-        &:hover {
-            fill: $source-hover-color;
-        };
-    };
-
     .ticks-style {
         font-family: $laila;
         font-size: 0.75rem;
@@ -161,6 +153,14 @@ html, body {
     background: $tip-bg-color;
     color: $tip-color;
     border: white 1px solid;
+};
+
+.chart-source {
+    fill: white;
+    text-decoration: underline;
+    &:hover {
+        fill: $source-hover-color;
+    };
 };
 
 .repo-link {

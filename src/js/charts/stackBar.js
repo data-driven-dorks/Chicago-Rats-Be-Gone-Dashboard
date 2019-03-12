@@ -1,4 +1,5 @@
 import * as d3 from "d3";
+import { legendColor } from "d3-svg-legend";
 
 export default class stackBar {
     constructor(canvas, width, height, margin) {
@@ -54,6 +55,19 @@ export default class stackBar {
             .domain(this.keys);
     };
 
+    graphLegend() {
+        this.legendGroup = this.canvas.append("g")
+            .attr("transform", `translate(${4 * this.margin.left}, ${0.31 * this.height})`);
+
+        this.legend = legendColor()
+            .shape("circle")
+            .shapePadding(5)
+            .scale(this.color);
+
+        this.legendGroup.call(this.legend);
+        this.legendGroup.selectAll("text").attr("fill", "white");
+    };
+
     graphPie() {
         this.arcPath = d3.arc()
             .innerRadius(d => this.y(d[0]))
@@ -75,7 +89,7 @@ export default class stackBar {
             .data(d => d)
             .enter()
             .append("path")
-            .attr("d", this.arcPath)
+            .attr("d", this.arcPath);
     };
 
     graphXAxis() {
@@ -92,9 +106,28 @@ export default class stackBar {
             .attr("fill", "white");
     };
 
+    graphInfo() {
+        this.graphTitle = this.graph.append("text")
+            .text("Rat Complaint Response Time Has Dropped in Chicago (2014 to 2018)")
+            .attr("text-anchor", "middle")
+            .attr("transform", `translate(0, -250)`)
+            .attr("font-size", "16")
+            .attr("fill", "white");
+
+        this.graphSource = this.graph.append("text")
+            .html(() => "Source: <a class='chart-source' href='https://data.cityofchicago.org/Service-Requests/311-Service-Requests-Rodent-Baiting-No-Duplicates/uqhs-j723'>Chicago Data Portal</a>")
+            .attr("text-anchor", "middle")
+            .attr("transform", `translate(250, 350)`)
+            .attr("font-size", "14")
+            .attr("fill", "white");
+    };
+
     graphRemove() {
         if (this.piePath) this.piePath.remove();
         if (this.xLabels) this.xLabels.remove();
+        if (this.graphTitle) this.graphTitle.remove();
+        if (this.graphSource) this.graphSource.remove();
+        if (this.legendGroup) this.legendGroup.remove();
     };
 
     grapher(data) {
@@ -102,9 +135,11 @@ export default class stackBar {
         this.graphRemove();
         this.graphSetup();
         this.graphScales();
+        this.graphLegend();
         this.graphPie();
         this.graphDraw();
         this.graphXAxis();
+        this.graphInfo();
         this.graphed = true;
     };
 };
