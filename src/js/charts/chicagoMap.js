@@ -30,44 +30,39 @@ export default class chicagoMap {
 
     graphProjection() {
         this.projection = d3.geoAlbers()
-            .translate([ this.width / 2, this.height / 2])
+            .translate([this.width / 2, this.height / 2])
             .center([8.25, 41.882505])
             .parallels([40, 45])
             .rotate([92.35, .5, -4])
             .scale([this.scale]);
-    
+
         this.geoGenerator = d3.geoPath(this.projection);
     };
 
     graphFillScale() {
-        this.fill = d3.scaleOrdinal()
-            .domain([0, 754])
-            .range([
-                "#fcee21", "#fceb22", "#fce722", "#fce522", "#fce223", 
-                "#fbdf23", "#fbdb23", "#fbd924", "#fbd624", "#fbd324", 
-                "#facf25", "#facd25", "#faca25", "#fac625", "#f9c326", 
-                "#f9c026", "#f9bd26", "#f8ba26", "#f8b626", "#f8b327", 
-                "#f7b027", "#f7ad27", "#f6aa27", "#f6a627", "#f5a427", 
-                "#f5a127", "#f49e27", "#f49a27", "#f39828", "#f39328", 
-                "#f29028", "#f28d28", "#f18928", "#f08628", "#f08428", 
-                "#ef8028", "#ef7c28", "#ee7928", "#ed7528", "#ed7128", 
-                "#ec6f28", "#eb6b28", "#ea6728", "#ea6328", "#e95f27", 
-                "#e85c27", "#e85827", "#e75427", "#e65027", "#e54b27"
-            ])
+        this.fill = d3.scaleThreshold()
+            .domain([2, 20, 50, 70, 100, 130, 180, 764])
+            .range(["#ffffff", "#fffac6", "#fff486", "#fcee21", "#f9c524", "#f49c25", "#ec7025"]);
     };
 
     graphMap() {
-        this.graph.selectAll("path")
+        this.mapPath = this.graph.selectAll("path")
             .data(this.dataChicago.features)
             .enter()
             .append("path")
             .attr("d", this.geoGenerator)
             .style("stroke", "#252525")
-            .style("stroke-width", 2)
-            .attr("fill", d => this.fill(d.properties.data[0].complaintspc));
+            .style("stroke-width", 2.3)
+            .attr("fill", d => this.fill(d.properties.data[this.year - 2014].complaintspc));
     };
 
-    grapher() {
+    graphRemove() {
+        if (this.mapPath) this.mapPath.remove();
+    };
+
+    grapher(year) {
+        this.year = year;
+        this.graphRemove();
         this.graphSetup();
         this.graphProjection();
         this.graphFillScale();

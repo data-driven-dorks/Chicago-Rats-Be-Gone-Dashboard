@@ -33,7 +33,7 @@ Promise.all(files.map(path => d3.json(path)))
             .attr("width", mapWidth)
             .attr("height", mapHeight);
         const chicagoMap = new ChicagoMap(dataChicago, mapCanvas, mapWidth, mapHeight, mapMargin, mapScale);
-        chicagoMap.grapher();
+        chicagoMap.grapher(2014);
         responsivefy(chicagoMap.canvas);
 
         /* Line Chart */
@@ -63,7 +63,7 @@ Promise.all(files.map(path => d3.json(path)))
         responsivefy(barChart.canvas);
 
         /* Slider Chart */
-        sliderGenerate(annualTotal, responseTime, lineChart, barChart);
+        sliderGenerate(annualTotal, responseTime, lineChart, barChart, chicagoMap);
         window.addEventListener("resize", () => {
             document.querySelector(".slider-width-getter").remove();
             sliderGenerate(annualTotal, responseTime, lineChart, barChart);
@@ -108,7 +108,7 @@ function sliderWidthRatio() {
 }
 
 /* Slider Generator */
-function sliderGenerate(annualTotal, responseTime, lineChart, barChart) {
+function sliderGenerate(annualTotal, responseTime, lineChart, barChart, chicagoMap) {
     let sliderContainerWidth = document.querySelector(".slider-section").offsetWidth
 
     const slider = sliderHorizontal()
@@ -121,8 +121,10 @@ function sliderGenerate(annualTotal, responseTime, lineChart, barChart) {
         .on("onchange", val => {
             const yearData = annualTotal.filter(d => d.year == val);
             const responseData = responseTime.filter(d => d.year == val);
+            const year = parseInt(val);
 
             /* Line Chart Update */
+            chicagoMap.grapher(year);
             lineChart.grapher(yearData);
             barChart.grapher(responseData);
         });
