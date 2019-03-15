@@ -94,7 +94,13 @@ export default class stackBar {
             .data(d => d)
             .enter()
             .append("path")
+
+        this.piePath
+            .attr("d", "M 0 0")
+            .attr("opacity", 0)
+            .transition().duration(500)
             .attr("d", this.arcPath)
+            .attr("opacity", 1)
             .attr("class", "cursor-pointer");
 
         this.piePath.on("mouseover", this.handleMouseOver.bind(this))
