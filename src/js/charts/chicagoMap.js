@@ -51,13 +51,63 @@ export default class chicagoMap {
             .enter()
             .append("path")
             .attr("d", this.geoGenerator)
-            .style("stroke", "#252525")
-            .style("stroke-width", 2.3)
+            .attr("stroke", "#252525")
+            .attr("stroke-width", 2.3)
+            .attr("fill", d => this.fill(d.properties.data[this.year - 2014].complaintspc))
+            .attr("class", "cursor-pointer");
+
+        this.mapPath.on("mouseover", this.handleMouseOver.bind(this))
+            .on("mouseout", this.handleMouseOut.bind(this));
+    };
+
+    handleMouseOver(d, i, n) {
+        const centroid = this.geoGenerator.centroid(d);
+        console.log(centroid);
+        console.log(n[i]);
+
+        d3.select(n[i])
+            .attr("fill", "white");
+
+        this.graph.append("foreignObject")
+            .attr("width", 200)
+            .attr("height", 54)
+            .attr("id", `t-${d.properties.data[this.year - 2014].complaints}-${i}`)
+            .attr("x", centroid[0])
+            .attr("y", centroid[1] - 120)
+            .html(() => {
+                let content = `<div class="tip-style"><div>${d.properties.community}</div>`;
+                content += `<div>${d.properties.data[this.year - 2014].complaintspc}</div></div>`;
+                return content;
+            });
+    };
+
+    handleMouseOut(d, i, n) {
+        d3.select(n[i])
             .attr("fill", d => this.fill(d.properties.data[this.year - 2014].complaintspc));
+        d3.select(`#t-${d.properties.data[this.year - 2014].complaints}-${i}`)
+            .remove();
+    };
+
+    graphInfo() {
+        this.graphTitle = this.graph.append("text")
+            .text("Rat Complaints per 10,000 Population across Chicago Communities (2014 to 2018)")
+            .attr("text-anchor", "middle")
+            .attr("transform", `translate(${this.width / 2} , ${this.margin.top / 2})`)
+            .attr("font-size", "16")
+            .attr("fill", "white");
+
+        this.graphSource = this.graph.append("text")
+            .html(() => "Source: <a class='chart-source' href='https://data.cityofchicago.org/Service-Requests/311-Service-Requests-Rodent-Baiting-No-Duplicates/uqhs-j723'>Chicago Data Portal</a>")
+            .attr("text-anchor", "middle")
+            .attr("transform", `translate(${this.graphWidth * 0.86}, ${this.height * 0.96})`)
+            .attr("font-size", "14")
+            .attr("fill", "white");
     };
 
     graphRemove() {
         if (this.mapPath) this.mapPath.remove();
+        if (this.graphTitle) this.graphTitle.remove();
+        if (this.graphSource) this.graphSource.remove();
     };
 
     grapher(year) {
@@ -67,6 +117,7 @@ export default class chicagoMap {
         this.graphProjection();
         this.graphFillScale();
         this.graphMap();
+        this.graphInfo();
         this.graphed = true;
     }
 }
