@@ -66,7 +66,7 @@ Promise.all(files.map(path => d3.json(path)))
         sliderGenerate(annualTotal, responseTime, lineChart, barChart, chicagoMap);
         window.addEventListener("resize", () => {
             document.querySelector(".slider-width-getter").remove();
-            sliderGenerate(annualTotal, responseTime, lineChart, barChart);
+            sliderGenerate(annualTotal, responseTime, lineChart, barChart, chicagoMap);
         });
     })
     .catch(err => {
