@@ -114,7 +114,7 @@ export default class stackBar {
             .attr("stroke", "white")
             .attr("stroke-width", 2);
 
-        this.graph.append("foreignObject")
+        this.tooltip = this.graph.append("foreignObject")
             .attr("width", 100)
             .attr("height", 54)
             .attr("id", `t-${d[0]}-${d[1]}-${i}`)
@@ -165,6 +165,7 @@ export default class stackBar {
     graphRemove() {
         if (this.piePath) this.piePath.remove();
         if (this.xLabels) this.xLabels.remove();
+        if (this.tooltip) this.tooltip.remove();
         if (this.graphTitle) this.graphTitle.remove();
         if (this.graphSource) this.graphSource.remove();
         if (this.legendGroup) this.legendGroup.remove();

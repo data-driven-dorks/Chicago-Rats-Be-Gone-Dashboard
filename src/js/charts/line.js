@@ -133,7 +133,7 @@ export default class lineChart {
             .attr("r", 3)
             .attr("fill", "rgb(229, 75, 39)");
 
-        this.graph.append("foreignObject")
+        this.tooltip = this.graph.append("foreignObject")
             .attr("width", 160)
             .attr("height", 50)
             .attr("id", `t-${d.date}-${d.count}-${i}`)
@@ -206,6 +206,7 @@ export default class lineChart {
         if (this.circles) this.circles.remove();
         if (this.xAxisLabel) this.xAxisLabel.remove();
         if (this.yAxisLabel) this.yAxisLabel.remove();
+        if (this.tooltip) this.tooltip.remove();
         if (this.graphTitle) this.graphTitle.remove();
         if (this.graphSource) this.graphSource.remove();
         if (this.gBrush) this.gBrush.remove();

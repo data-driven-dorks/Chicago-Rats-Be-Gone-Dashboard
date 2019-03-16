@@ -26,10 +26,17 @@ const files = [
 Promise.all(files.map(path => d3.json(path)))
     .then(res => {
         /* User Instructions */
-        swal({
-            title: "Dashboard Instructions",
-            text: "Use slider to change year of data!\n\nHover over map to see rat complaints per 10,000 population at community level!\n\nHover over line to see the monthly count of rat complaints!\n\nHover over circular bars to see the how many rat complaints were responded within a certain time period!"
-        });
+        if (isMobileDevice()) {
+            swal({
+                title: "Dashboard Instructions",
+                text: "Swipe slider to change year of data!\n\nTap map to see rat complaints per 10,000 population at community level!\n\nTap line dots to see monthly counts of rat complaints!\n\nTap circular bar slices to see how many rat complaints were responded within a certain time period!"
+            });
+        } else {
+            swal({
+                title: "Dashboard Instructions",
+                text: "Drag slider to change year of data!\n\nHover over map to see rat complaints per 10,000 population at community level!\n\nHover over line dots to see monthly counts of rat complaints!\n\nHover over circular bar slices to see how many rat complaints were responded within a certain time period!"
+            });
+        }
 
         /* Name Data */
         const dataChicago = res[0];
@@ -159,4 +166,9 @@ function sliderGenerate(annualTotal, responseTime, lineChart, barChart, chicagoM
     sliderCanvas.append("g")
         .attr("transform", `translate(${sliderContainerWidth * 0.05}, 20)`)
         .call(slider);
+};
+
+/* Mobile Device */
+function isMobileDevice() {
+    return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1);
 };

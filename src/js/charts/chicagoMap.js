@@ -72,7 +72,7 @@ export default class chicagoMap {
         d3.select(n[i])
             .attr("fill", "white");
 
-        this.graph.append("foreignObject")
+        this.tooltip = this.graph.append("foreignObject")
             .attr("width", 200)
             .attr("height", 54)
             .attr("id", `t-${d.properties.data[this.year - 2014].complaints}-${i}`)
@@ -113,6 +113,7 @@ export default class chicagoMap {
         if (this.mapPath) this.mapPath.remove();
         if (this.graphTitle) this.graphTitle.remove();
         if (this.graphSource) this.graphSource.remove();
+        if (this.tooltip) this.tooltip.remove();
     };
 
     grapher(year) {
