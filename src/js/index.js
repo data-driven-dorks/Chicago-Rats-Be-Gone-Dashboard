@@ -3,6 +3,8 @@ import "../css/style.css";
 
 import ratfavi from "../img/ratfavi.png";
 
+import swal from "sweetalert";
+
 import * as d3 from "d3";
 import { sliderHorizontal } from "d3-simple-slider";
 import ChicagoMap from "./charts/chicagoMap";
@@ -19,6 +21,13 @@ const files = ["data/chicago_community_boundaries.geojson", "data/year_chicago_5
 /* Plot */
 Promise.all(files.map(path => d3.json(path)))
     .then(res => {
+        /* User Instructions */
+        swal({
+            title: "Dashboard Instructions",
+            text: "Use slider to change year of data!\n\nHover over map to see rat complaints per 10,000 population at community level!\n\nHover over line to see the monthly count of rat complaints!\n\nHover over circular bars to see the how many rat complaints were responded within a certain time period!"
+        });
+
+        /* Load Data*/
         const dataChicago = res[0];
         const annualTotal = res[1];
         const responseTime = res[2];
