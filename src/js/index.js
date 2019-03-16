@@ -80,6 +80,13 @@ Promise.all(files.map(path => d3.json(path)))
         window.addEventListener("resize", () => {
             document.querySelector(".slider-width-getter").remove();
             sliderGenerate(annualTotal, responseTime, lineChart, barChart, chicagoMap);
+
+            /* Regenerate 2014 Default */
+            const yearData = annualTotal.filter(d => d.year == 2014);
+            const responseData = responseTime.filter(d => d.year == 2014);
+            chicagoMap.grapher(2014);
+            lineChart.grapher(yearData);
+            barChart.grapher(responseData);
         });
     })
     .catch(err => {
