@@ -83,7 +83,7 @@ export default class lineChart {
             .attr("stroke-dashoffset", l);
 
         this.timePath.transition()
-            .duration(500)
+            .duration(750)
             .attr("stroke-dashoffset", 0);
 
         setTimeout(() => {
@@ -160,8 +160,8 @@ export default class lineChart {
             .extent([[this.x(dateMin), this.y(7000)], [this.x(dateMax), this.y(0)]]);
 
         this.gBrush = this.graph.append("g")
-        .attr("class", "brush")
-        .call(this.brush);
+            .attr("class", "brush")
+            .call(this.brush);
 
         this.gBrush.on(".brush", null);
     }
@@ -216,7 +216,7 @@ export default class lineChart {
         this.graphRemove();
         this.graphSetup();
         this.graphScales();
-        this.graphAxes();   
+        this.graphAxes();
         this.graphBrush();
         this.graphLine();
         this.graphAxesLabel();

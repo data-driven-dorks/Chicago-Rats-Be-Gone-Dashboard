@@ -14,7 +14,7 @@ export default class stackBar {
         this.center = {
             x: this.graphWidth / 2 + this.margin.left,
             y: this.graphHeight / 2
-        }
+        };
         this.colorScheme = [
             "rgb(53, 168, 73)",     // green
             "rgb(252, 238, 33)",    // yellow
@@ -80,7 +80,7 @@ export default class stackBar {
             .startAngle(d => this.x(d.data.month))
             .endAngle(d => this.x(d.data.month) + this.x.bandwidth())
             .padAngle(0.02)
-            .padRadius(this.innerRadius)
+            .padRadius(this.innerRadius);
     };
 
     graphDraw() {
@@ -93,12 +93,12 @@ export default class stackBar {
             .selectAll("path")
             .data(d => d)
             .enter()
-            .append("path")
+            .append("path");
 
-        this.piePath
-            .attr("d", "M 0 0")
+        this.piePath.attr("d", "M 0 0")
             .attr("opacity", 0)
-            .transition().duration(500)
+            .transition()
+            .duration(750)
             .attr("d", this.arcPath)
             .attr("opacity", 1)
             .attr("class", "cursor-pointer");

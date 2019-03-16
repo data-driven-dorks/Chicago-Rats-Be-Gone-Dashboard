@@ -51,8 +51,14 @@ export default class chicagoMap {
             .enter()
             .append("path")
             .attr("d", this.geoGenerator)
+            .attr("opacity", 0.7)
+            .attr("stroke-width", 0.1);
+
+        this.mapPath.transition()
+            .duration(750)
             .attr("stroke", "#252525")
             .attr("stroke-width", 2.3)
+            .attr("opacity", 1)
             .attr("fill", d => this.fill(d.properties.data[this.year - 2014].complaintspc))
             .attr("class", "cursor-pointer");
 
@@ -62,8 +68,6 @@ export default class chicagoMap {
 
     handleMouseOver(d, i, n) {
         const centroid = this.geoGenerator.centroid(d);
-        console.log(centroid);
-        console.log(n[i]);
 
         d3.select(n[i])
             .attr("fill", "white");
@@ -84,6 +88,7 @@ export default class chicagoMap {
     handleMouseOut(d, i, n) {
         d3.select(n[i])
             .attr("fill", d => this.fill(d.properties.data[this.year - 2014].complaintspc));
+
         d3.select(`#t-${d.properties.data[this.year - 2014].complaints}-${i}`)
             .remove();
     };
