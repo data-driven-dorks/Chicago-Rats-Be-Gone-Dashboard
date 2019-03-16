@@ -16,7 +16,11 @@ let favicon = document.getElementById("favicon");
 favicon.href = ratfavi;
 
 /* Data */
-const files = ["data/chicago_community_boundaries.geojson", "data/year_chicago_5_year_complaints_by_date.json", "data/year_chicago_5_year_complaints_by_response_time.json"];
+const files = [
+    "data/chicago_community_boundaries.geojson", 
+    "data/year_chicago_5_year_complaints_by_date.json", 
+    "data/year_chicago_5_year_complaints_by_response_time.json"
+];
 
 /* Plot */
 Promise.all(files.map(path => d3.json(path)))
@@ -27,7 +31,7 @@ Promise.all(files.map(path => d3.json(path)))
             text: "Use slider to change year of data!\n\nHover over map to see rat complaints per 10,000 population at community level!\n\nHover over line to see the monthly count of rat complaints!\n\nHover over circular bars to see the how many rat complaints were responded within a certain time period!"
         });
 
-        /* Load Data*/
+        /* Name Data */
         const dataChicago = res[0];
         const annualTotal = res[1];
         const responseTime = res[2];
@@ -71,7 +75,7 @@ Promise.all(files.map(path => d3.json(path)))
         barChart.grapher(responseTime2014);
         responsivefy(barChart.canvas);
 
-        /* Slider Chart */
+        /* Slider */
         sliderGenerate(annualTotal, responseTime, lineChart, barChart, chicagoMap);
         window.addEventListener("resize", () => {
             document.querySelector(".slider-width-getter").remove();
@@ -79,7 +83,9 @@ Promise.all(files.map(path => d3.json(path)))
         });
     })
     .catch(err => {
-        alert("Something went wrong...");
+        swal("Something went wrong...", {
+            button: false,
+        });
         console.log(err);
     });
 
@@ -89,7 +95,7 @@ function responsivefy(svg, type) {
         width = parseInt(svg.style("width")),
         height = parseInt(svg.style("height"));
     let aspect = width / height;
-    if (aspect < 0.8) { aspect = 1; width = 700; }
+    if (aspect < 0.8) { aspect = 1; width = 700; };
 
     svg.attr("viewBox", `0 0 ${width} ${height}`)
         .attr("perserveAspectRatio", "xMinYMid")
@@ -132,7 +138,7 @@ function sliderGenerate(annualTotal, responseTime, lineChart, barChart, chicagoM
             const responseData = responseTime.filter(d => d.year == val);
             const year = parseInt(val);
 
-            /* Line Chart Update */
+            /* Chart Updates */
             chicagoMap.grapher(year);
             lineChart.grapher(yearData);
             barChart.grapher(responseData);
@@ -146,4 +152,4 @@ function sliderGenerate(annualTotal, responseTime, lineChart, barChart, chicagoM
     sliderCanvas.append("g")
         .attr("transform", `translate(${sliderContainerWidth * 0.05}, 20)`)
         .call(slider);
-}
+};

@@ -148,7 +148,7 @@ export default class stackBar {
 
     graphInfo() {
         this.graphTitle = this.graph.append("text")
-            .text("Rat Complaint Response Time Has Dropped in Chicago (2014 to 2018)")
+            .text(`Monthly Distribution of Rat Complaint Response Time (${this.data[0].year})`)
             .attr("text-anchor", "middle")
             .attr("transform", `translate(0, -250)`)
             .attr("font-size", "16")
@@ -157,7 +157,7 @@ export default class stackBar {
         this.graphSource = this.graph.append("text")
             .html(() => "Source: <a class='chart-source' href='https://data.cityofchicago.org/Service-Requests/311-Service-Requests-Rodent-Baiting-No-Duplicates/uqhs-j723'>Chicago Data Portal</a>")
             .attr("text-anchor", "middle")
-            .attr("transform", `translate(250, 350)`)
+            .attr("transform", `translate(237, 350)`)
             .attr("font-size", "14")
             .attr("fill", "white");
     };

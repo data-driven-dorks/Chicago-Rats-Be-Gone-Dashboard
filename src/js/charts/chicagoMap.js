@@ -95,16 +95,16 @@ export default class chicagoMap {
 
     graphInfo() {
         this.graphTitle = this.graph.append("text")
-            .text("Rat Complaints per 10,000 Population across Chicago Communities (2014 to 2018)")
+            .text(`Rat Complaints per 10,000 Population across Chicago Communities (${this.year})`)
             .attr("text-anchor", "middle")
             .attr("transform", `translate(${this.width / 2} , ${this.margin.top / 2})`)
             .attr("font-size", "16")
             .attr("fill", "white");
 
         this.graphSource = this.graph.append("text")
-            .html(() => "Source: <a class='chart-source' href='https://data.cityofchicago.org/Service-Requests/311-Service-Requests-Rodent-Baiting-No-Duplicates/uqhs-j723'>Chicago Data Portal</a>")
+            .html(() => "Source: <a class='chart-source' href='https://data.cityofchicago.org/Service-Requests/311-Service-Requests-Rodent-Baiting-No-Duplicates/uqhs-j723'>Chicago Data Portal</a> & <a class='chart-source' href ='https://api.census.gov/data/2016/acs/acs5/variables.html'>American Community Survey</a>")
             .attr("text-anchor", "middle")
-            .attr("transform", `translate(${this.graphWidth * 0.86}, ${this.height * 0.96})`)
+            .attr("transform", `translate(${this.graphWidth * 0.66}, ${this.height * 0.96})`)
             .attr("font-size", "14")
             .attr("fill", "white");
     };
