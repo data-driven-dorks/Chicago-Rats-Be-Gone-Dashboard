@@ -36,7 +36,7 @@ Promise.all(files.map(path => d3.json(path)))
                 title: "Dashboard Instructions",
                 text: "Drag slider to change year of data!\n\nHover over map to see rat complaints per 10,000 population at community level!\n\nHover over line dots to see monthly counts of rat complaints!\n\nHover over circular bar slices to see how many rat complaints were responded within a certain time period!"
             });
-        }
+        };
 
         /* Name Data */
         const dataChicago = res[0];
