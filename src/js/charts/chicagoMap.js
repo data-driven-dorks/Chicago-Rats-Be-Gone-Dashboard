@@ -77,7 +77,7 @@ export default class chicagoMap {
             .attr("height", 54)
             .attr("id", `t-${d.properties.data[this.year - 2014].complaints}-${i}`)
             .attr("x", centroid[0])
-            .attr("y", centroid[1] - 90)
+            .attr("y", centroid[1] - 80)
             .html(() => {
                 let content = `<div class="tip-style"><div>${d.properties.community}</div>`;
                 content += `<div>${d.properties.data[this.year - 2014].complaintspc}</div></div>`;
