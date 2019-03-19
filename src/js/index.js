@@ -118,6 +118,14 @@ function responsivefy(svg, type) {
     d3.select(window).on(`resize.${container.attr("id")}`, resize);
 
     function resize() {
+        if (typeof console._commandLineAPI !== 'undefined') {
+            console.API = console._commandLineAPI;
+        } else if (typeof console._inspectorCommandLineAPI !== 'undefined') {
+            console.API = console._inspectorCommandLineAPI;
+        } else if (typeof console.clear !== 'undefined') {
+            console.API = console;
+        };
+        console.API.clear();
         let targetWidth = parseInt(container.style("width"));
         if (type === "line") targetWidth = NaN;
         svg.attr("width", targetWidth - 30);
