@@ -1,4 +1,5 @@
 import * as d3 from "d3";
+import { Delaunay } from "d3-delaunay";
 
 export default class lineChart {
     constructor(fiveYearData, canvas, width, height, margin) {
@@ -87,7 +88,8 @@ export default class lineChart {
             .attr("stroke-dashoffset", 0);
 
         setTimeout(() => {
-            this.graphCircles()
+            this.graphCircles();
+            this.graphVoronoi();
         }, 500);
     };
 
@@ -100,7 +102,8 @@ export default class lineChart {
             .attr("r", 0)
             .attr("cx", d => this.x(new Date(d.date)))
             .attr("cy", d => this.y(d.count))
-            .attr("class", "cursor-pointer")
+            .attr("class", "cursor-crosshair")
+            .attr("id", d => `circle-${parseInt(this.x(new Date(d.date)))}-${parseInt(this.y(d.count))}`)
             .attr("stroke", "white")
             .attr("stroke-width", 1);
 
@@ -108,12 +111,9 @@ export default class lineChart {
             .duration(300)
             .attr("r", 2)
             .attr("fill", "rgb(252, 238, 33)");
-
-        this.circles.on("mouseover", this.handleMouseOver.bind(this))
-            .on("mouseout", this.handleMouseOut);
     };
 
-    handleMouseOver(d, i, n) {
+    graphVoronoi() {
         const months = [
             "January",
             "February",
@@ -129,28 +129,33 @@ export default class lineChart {
             "December"
         ];
 
-        d3.select(n[i])
-            .attr("r", 3)
-            .attr("fill", "rgb(229, 75, 39)");
+        this.voronoi = Delaunay.from(this.data.map(d => [this.x(new Date(d.date)), this.y(d.count)]));
 
-        this.tooltip = this.graph.append("foreignObject")
-            .attr("width", 160)
-            .attr("height", 50)
-            .attr("id", `t-${d.date}-${d.count}-${i}`)
-            .attr("x", this.x(new Date(d.date)) - 70)
-            .attr("y", this.y(d.count) - 60)
-            .html(() => {
-                return `<div class="tip-style">${months[(new Date(d.date)).getMonth()]}: ${d.count}</div>`;
-            });
-    };
+        this.graph.on('mousemove', () => {
+            if (this.tooltip) this.tooltip.remove();
+            if (this.circles) this.circles.attr("r", 2).attr("fill", "rgb(252, 238, 33)");
 
-    handleMouseOut(d, i, n) {
-        d3.select(this)
-            .attr("r", 2)
-            .attr("fill", "rgb(252, 238, 33)");
+            const coord = d3.mouse(this.graph.node());
+            let highlight_point = this.data[this.voronoi.find(...coord)];
 
-        d3.select(`#t-${d.date}-${d.count}-${i}`)
-            .remove();
+            d3.select(`#circle-${parseInt(this.x(new Date(highlight_point.date)))}-${parseInt(this.y(highlight_point.count))}`)
+                .attr("r", 3)
+                .attr("fill", "rgb(229, 75, 39)");
+
+            this.tooltip = this.graph.append("foreignObject")
+                .attr("width", 160)
+                .attr("height", 50)
+                .attr("x", this.x(new Date(highlight_point.date)) - 70)
+                .attr("y", this.y(highlight_point.count) - 60)
+                .html(() => {
+                    return `<div class="tip-style">${months[(new Date(highlight_point.date)).getMonth()]}: ${highlight_point.count}</div>`;
+                });
+        });
+
+        this.canvas.on("mouseout", () => {
+            if (this.tooltip) this.tooltip.remove();
+            if (this.circles) this.circles.attr("r", 2).attr("fill", "rgb(252, 238, 33)");
+        });
     };
 
     graphBrush() {

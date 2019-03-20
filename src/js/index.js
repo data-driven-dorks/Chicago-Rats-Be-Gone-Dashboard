@@ -100,6 +100,7 @@ Promise.all(files.map(path => d3.json(path)))
         swal("Something went wrong...", {
             button: false,
         });
+        
         console.log(err);
     });
 
@@ -126,6 +127,7 @@ function responsivefy(svg, type) {
             console.API = console;
         };
         console.API.clear();
+
         let targetWidth = parseInt(container.style("width"));
         if (type === "line") targetWidth = NaN;
         svg.attr("width", targetWidth - 30);
