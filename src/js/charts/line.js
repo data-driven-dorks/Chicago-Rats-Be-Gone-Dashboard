@@ -1,7 +1,7 @@
 import * as d3 from "d3";
 import { Delaunay } from "d3-delaunay";
 
-export default class lineChart {
+export default class LineChart {
     constructor(fiveYearData, canvas, width, height, margin) {
         this.fiveYearData = fiveYearData;
         this.canvas = canvas;
@@ -41,7 +41,6 @@ export default class lineChart {
             .attr("transform", `translate(${this.margin.left}, 0)`);
 
         const xAxis = d3.axisBottom(this.x);
-
         const yAxis = d3.axisLeft(this.y);
 
         this.xAxisGroup.call(xAxis)
@@ -95,6 +94,7 @@ export default class lineChart {
 
     graphCircles() {
         if (this.circles) this.circles.remove();
+
         this.circles = this.graph.selectAll("circle")
             .data(this.data)
             .enter()
@@ -136,19 +136,19 @@ export default class lineChart {
             if (this.circles) this.circles.attr("r", 2).attr("fill", "rgb(252, 238, 33)");
 
             const coord = d3.mouse(this.graph.node());
-            let highlight_point = this.data[this.voronoi.find(...coord)];
+            let highLightCircle = this.data[this.voronoi.find(...coord)];
 
-            d3.select(`#circle-${parseInt(this.x(new Date(highlight_point.date)))}-${parseInt(this.y(highlight_point.count))}`)
+            d3.select(`#circle-${parseInt(this.x(new Date(highLightCircle.date)))}-${parseInt(this.y(highLightCircle.count))}`)
                 .attr("r", 3)
                 .attr("fill", "rgb(229, 75, 39)");
 
             this.tooltip = this.graph.append("foreignObject")
                 .attr("width", 160)
                 .attr("height", 50)
-                .attr("x", this.x(new Date(highlight_point.date)) - 70)
-                .attr("y", this.y(highlight_point.count) - 60)
+                .attr("x", this.x(new Date(highLightCircle.date)) - 70)
+                .attr("y", this.y(highLightCircle.count) - 60)
                 .html(() => {
-                    return `<div class="tip-style">${months[(new Date(highlight_point.date)).getMonth()]}: ${highlight_point.count}</div>`;
+                    return `<div class="tip-style">${months[(new Date(highLightCircle.date)).getMonth()]}: ${highLightCircle.count}</div>`;
                 });
         });
 
@@ -161,6 +161,7 @@ export default class lineChart {
     graphBrush() {
         const dateMin = d3.min(this.data, d => new Date(d.date));
         const dateMax = d3.max(this.data, d => new Date(d.date));
+
         this.brush = d3.brushX()
             .extent([[this.x(dateMin), this.y(7000)], [this.x(dateMax), this.y(0)]]);
 

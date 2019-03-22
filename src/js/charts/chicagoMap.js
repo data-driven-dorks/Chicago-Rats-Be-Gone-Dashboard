@@ -1,6 +1,6 @@
 import * as d3 from "d3";
 
-export default class chicagoMap {
+export default class ChicagoMap {
     constructor(dataChicago, canvas, width, height, margin, scale) {
         this.dataChicago = dataChicago;
         this.canvas = canvas;
@@ -125,5 +125,5 @@ export default class chicagoMap {
         this.graphMap();
         this.graphInfo();
         this.graphed = true;
-    }
-}
+    };
+};

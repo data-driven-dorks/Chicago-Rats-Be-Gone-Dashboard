@@ -1,7 +1,7 @@
 import * as d3 from "d3";
 import { legendColor } from "d3-svg-legend";
 
-export default class stackBar {
+export default class StackBar {
     constructor(canvas, width, height, margin) {
         this.canvas = canvas;
         this.width = width;
@@ -65,10 +65,10 @@ export default class stackBar {
             .scale(this.color);
 
         this.legendGroup.call(this.legend);
+
         this.legendGroup.selectAll("text")
             .attr("fill", "white")
             .attr("font-size", "14");
-
         this.legendGroup.selectAll("circle")
             .attr("r", "6");
     };
@@ -128,6 +128,7 @@ export default class stackBar {
     handleMouseOut(d, i, n) {
         d3.select(n[i])
             .attr("stroke", "none");
+            
         d3.select(`#t-${d[0]}-${d[1]}-${i}`)
             .remove();
     };

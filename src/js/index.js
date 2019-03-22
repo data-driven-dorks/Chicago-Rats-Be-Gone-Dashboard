@@ -17,8 +17,8 @@ favicon.href = ratfavi;
 
 /* Data */
 const files = [
-    "data/chicago_community_boundaries.geojson", 
-    "data/year_chicago_5_year_complaints_by_date.json", 
+    "data/chicago_community_boundaries.geojson",
+    "data/year_chicago_5_year_complaints_by_date.json",
     "data/year_chicago_5_year_complaints_by_response_time.json"
 ];
 
@@ -33,7 +33,7 @@ Promise.all(files.map(path => d3.json(path)))
             });
         };
 
-        /* Name Data */
+        /* Data Naming */
         const dataChicago = res[0];
         const annualTotal = res[1];
         const responseTime = res[2];
@@ -62,7 +62,7 @@ Promise.all(files.map(path => d3.json(path)))
             .attr("height", lineHeight);
         const lineChart = new LineChart(annualTotal, lineCanvas, lineWidth, lineHeight, lineMargin);
         lineChart.grapher(year2014);
-        responsivefy(lineCanvas, "line");
+        responsivefy(lineChart.canvas, "line");
 
         /* Stack Bar */
         const responseTime2014 = responseTime.filter(d => d.year == 2014);
@@ -95,7 +95,7 @@ Promise.all(files.map(path => d3.json(path)))
         swal("Something went wrong...", {
             button: false,
         });
-        
+
         console.log(err);
     });
 
@@ -139,11 +139,11 @@ function sliderWidthRatio() {
     } else {
         return 0.8;
     };
-}
+};
 
 /* Slider Generator */
 function sliderGenerate(annualTotal, responseTime, lineChart, barChart, chicagoMap) {
-    let sliderContainerWidth = document.querySelector(".slider-section").offsetWidth
+    let sliderContainerWidth = document.querySelector(".slider-section").offsetWidth;
 
     const slider = sliderHorizontal()
         .min(2014)
@@ -168,6 +168,7 @@ function sliderGenerate(annualTotal, responseTime, lineChart, barChart, chicagoM
         .attr("class", "slider-width-getter")
         .attr("width", sliderContainerWidth * 1.5)
         .attr("height", 70);
+        
     sliderCanvas.append("g")
         .attr("transform", `translate(${sliderContainerWidth * 0.05}, 20)`)
         .call(slider);
